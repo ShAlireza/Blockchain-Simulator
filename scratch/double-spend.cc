@@ -125,6 +125,7 @@ main (int argc, char *argv[])
         return 0;
     }
 
+    double AttackerHash = 0.3;
     CommandLine cmd;
     cmd.AddValue ("blockIntervalMinutes", "The average block generation interval in minutes", averageBlockGenIntervalMinutes);
     cmd.AddValue ("noBlocks", "The number of generated blocks", targetNumberOfBlocks);
@@ -135,11 +136,14 @@ main (int argc, char *argv[])
     cmd.AddValue ("unsolicited", "Change the miners block broadcast type to UNSOLICITED", unsolicited);
     cmd.AddValue ("relayNetwork", "Change the miners block broadcast type to RELAY_NETWORK", relayNetwork);
     cmd.AddValue ("unsolicitedRelayNetwork", "Change the miners block broadcast type to UNSOLICITED_RELAY_NETWORK", unsolicitedRelayNetwork);
+    cmd.AddValue ("q", "Attacker's hashing power", AttackerHash);
+    cmd.AddValue("z", "number of secure blocks", secureBlocks);
 
     cmd.Parse(argc, argv);
 
     averageBlockGenIntervalSeconds = averageBlockGenIntervalMinutes * secsPerMin;
     stop = targetNumberOfBlocks * averageBlockGenIntervalMinutes; //seconds
+    minersHash[attackerId] = AttackerHash;
 
     for (int iter = 0; iter < iterations; iter++)
     {
