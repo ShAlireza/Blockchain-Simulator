@@ -2,7 +2,7 @@
 
 # Configure the following values
 RAPIDJSON_FOLDER=./rapidjson
-NS3_FOLDER=./ns-allinone-3.25/ns-3.25
+NS3_FOLDER=./ns-allinone-3.41/ns-3.41
 #NS3_FOLDER=./ns-allinone-3.41/ns-3.41
 
 # Do not change
