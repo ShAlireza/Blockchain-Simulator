@@ -61,6 +61,7 @@ public:
 
   ~BitcoinTopologyHelper ();
 
+  double getEnvVarAsDouble(const std::string& varName);
   /**
    * \param row the row address of the node desired
    *

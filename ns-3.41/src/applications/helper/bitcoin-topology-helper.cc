@@ -27,6 +27,9 @@
 #include "ns3/random-variable-stream.h"
 #include "ns3/double.h"
 #include <algorithm>
+#include <cstdlib> // For getenv
+#include <optional> // For std::optional
+#include <string>  // For std::stod
 #include <fstream>
 #include <time.h>
 #include <sys/time.h>
@@ -35,6 +38,19 @@ static double GetWallTime();
 namespace ns3 {
 
 NS_LOG_COMPONENT_DEFINE ("BitcoinTopologyHelper");
+
+
+double
+BitcoinTopologyHelper::getEnvVarAsDouble(const std::string& varName) {
+    const char* valueStr = getenv(varName.c_str());
+
+    try {
+        double value = std::stod(valueStr);
+        return value;
+    } catch (const std::exception&) {
+        return 1.0;
+    }
+}
 
 BitcoinTopologyHelper::BitcoinTopologyHelper (uint32_t noCpus, uint32_t totalNoNodes, uint32_t noMiners, enum BitcoinRegion *minersRegions,
                                               enum Cryptocurrency cryptocurrency, int minConnectionsPerNode, int maxConnectionsPerNode,  
@@ -1129,10 +1145,30 @@ BitcoinTopologyHelper::BitcoinTopologyHelper (uint32_t noCpus, uint32_t totalNoN
                                                   [m_bitcoinNodesRegion[(m_nodes.at (*it).Get (0))->GetId()]] << "ms";
         }
 
-        
+ 
 		pointToPoint.SetDeviceAttribute ("DataRate", StringValue (bandwidthStream.str()));
-		pointToPoint.SetChannelAttribute ("Delay", StringValue (latencyStringStream.str()));
+	      // grava
+		// std::cout << "Hi - channel delay2" << latencyStringStream.str() << std::endl;
+		// pointToPoint.SetChannelAttribute ("Delay", StringValue (latencyStringStream.str()));
 		
+    	std::string latencyString = latencyStringStream.str();
+    	std::size_t msPos = latencyString.find("ms");
+    	if (msPos != std::string::npos) {
+    	    double latencyValue = std::stod(latencyString.substr(0, msPos));
+	    auto myDouble = getEnvVarAsDouble("delayFactor");
+	    // std::cout << myDouble << std::endl;
+    	    latencyValue *= myDouble; // Double the latency
+
+    	    std::ostringstream newLatencyStream;
+    	    newLatencyStream << latencyValue << "ms";
+    	    // std::cout << "New channel delay: " << newLatencyStream.str() << std::endl;
+
+    	    pointToPoint.SetChannelAttribute("Delay", StringValue(newLatencyStream.str()));
+		// std::cout << "Hi after - channel delay2" << newLatencyStream.str() << std::endl;
+    	} else {
+    	    std::cout << "Could not parse latency value." << std::endl;
+    	}
+
         newDevices.Add (pointToPoint.Install (m_nodes.at (*miner).Get (0), m_nodes.at (*it).Get (0)));
 		m_devices.push_back (newDevices);
 /* 		if (m_systemId == 0)
