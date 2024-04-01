@@ -959,8 +959,8 @@ BitcoinTopologyHelper::BitcoinTopologyHelper (uint32_t noCpus, uint32_t totalNoN
   {
     for(int i = 0; i < m_totalNoNodes; i++)
     {
-	  if (m_nodesConnections[i].size() < m_minConnections[i])
-	    std::cout << "Node " << i << " should have at least " << m_minConnections[i] << " connections but it has only " << m_nodesConnections[i].size() << " connections\n";
+	  //if (m_nodesConnections[i].size() < m_minConnections[i])
+	  //  std::cout << "Node " << i << " should have at least " << m_minConnections[i] << " connections but it has only " << m_nodesConnections[i].size() << " connections\n";
     }
   }
   
@@ -1021,13 +1021,13 @@ BitcoinTopologyHelper::BitcoinTopologyHelper (uint32_t noCpus, uint32_t totalNoN
       }
     }
 	
-    std::cout << "Average Number of Connections Per Node = " << averageNoConnectionsPerNode / (m_totalNoNodes - m_noMiners) 
-	          << "\nAverage Number of Connections Per Miner = " << averageNoConnectionsPerMiner / (m_noMiners) << "\nConnections distribution: \n";
+//    std::cout << "Average Number of Connections Per Node = " << averageNoConnectionsPerNode / (m_totalNoNodes - m_noMiners) 
+//	          << "\nAverage Number of Connections Per Miner = " << averageNoConnectionsPerMiner / (m_noMiners) << "\nConnections distribution: \n";
 			  
-    for (uint32_t i = 0; i < connectionsDistributionIntervals.size(); i++)
-    {
-      std::cout << intervals[i] << "-" << intervals[i+1] << ": " << stats[i] << "(" << stats[i] * 100.0 / m_totalNoNodes << "%)\n";
-    }
+    // for (uint32_t i = 0; i < connectionsDistributionIntervals.size(); i++)
+    // {
+    //   std::cout << intervals[i] << "-" << intervals[i+1] << ": " << stats[i] << "(" << stats[i] * 100.0 / m_totalNoNodes << "%)\n";
+    // }
 	
     delete[] intervals;
 	delete[] stats;
@@ -1036,9 +1036,9 @@ BitcoinTopologyHelper::BitcoinTopologyHelper (uint32_t noCpus, uint32_t totalNoN
   tFinish = GetWallTime();
   if (m_systemId == 0)
   {
-    std::cout << "The nodes connections were created in " << tFinish - tStart << "s.\n";
-    std::cout << "The minimum number of connections for each node is " << m_minConnectionsPerNode 
-              << " and whereas the maximum is " << m_maxConnectionsPerNode << ".\n";
+    std::cout << "The nodes connections were created: " << tFinish - tStart << "s.\n";
+    // std::cout << "The minimum number of connections for each node is " << m_minConnectionsPerNode 
+    //          << " and whereas the maximum is " << m_maxConnectionsPerNode << ".\n";
   }
   
   

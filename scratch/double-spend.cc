@@ -130,12 +130,12 @@ main (int argc, char *argv[])
     cmd.AddValue ("blockIntervalMinutes", "The average block generation interval in minutes", averageBlockGenIntervalMinutes);
     cmd.AddValue ("noBlocks", "The number of generated blocks", targetNumberOfBlocks);
     cmd.AddValue ("iterations", "The number of iterations of the attack", iterations);
-    cmd.AddValue ("test", "Test the attack", test);
+    // cmd.AddValue ("test", "Test the attack", test);
     cmd.AddValue ("ud", "The transaction value which is double-spent", ud);
     cmd.AddValue ("r", "The stale block rate", r);
-    cmd.AddValue ("unsolicited", "Change the miners block broadcast type to UNSOLICITED", unsolicited);
-    cmd.AddValue ("relayNetwork", "Change the miners block broadcast type to RELAY_NETWORK", relayNetwork);
-    cmd.AddValue ("unsolicitedRelayNetwork", "Change the miners block broadcast type to UNSOLICITED_RELAY_NETWORK", unsolicitedRelayNetwork);
+    // cmd.AddValue ("unsolicited", "Change the miners block broadcast type to UNSOLICITED", unsolicited);
+    // cmd.AddValue ("relayNetwork", "Change the miners block broadcast type to RELAY_NETWORK", relayNetwork);
+    // cmd.AddValue ("unsolicitedRelayNetwork", "Change the miners block broadcast type to UNSOLICITED_RELAY_NETWORK", unsolicitedRelayNetwork);
     cmd.AddValue ("q", "Attacker's hashing power", AttackerHash);
     cmd.AddValue("z", "number of secure blocks", secureBlocks);
 
@@ -173,8 +173,8 @@ main (int argc, char *argv[])
         peersDownloadSpeeds = bitcoinTopologyHelper.GetPeersDownloadSpeeds();
         peersUploadSpeeds = bitcoinTopologyHelper.GetPeersUploadSpeeds();
         nodesInternetSpeeds = bitcoinTopologyHelper.GetNodesInternetSpeeds();
-        if (systemId == 0)
-            PrintBitcoinRegionStats(bitcoinTopologyHelper.GetBitcoinNodesRegions(), totalNoNodes);
+        // if (systemId == 0)
+        //     PrintBitcoinRegionStats(bitcoinTopologyHelper.GetBitcoinNodesRegions(), totalNoNodes);
 
 
         //Install miners
@@ -254,16 +254,16 @@ main (int argc, char *argv[])
             PrintAttackStats(stats, attackerId, ud, r);
             //PrintStatsForEachNode(stats, totalNoNodes);
             //PrintTotalStats(stats, totalNoNodes);
-            std::cout << "\nThe simulation ran for " << tFinish - tStart << "s simulating "
-                      << stop << "mins.\nIt consisted of " << totalNoNodes
-                      << " nodes (" << noMiners << " miners) with minConnectionsPerNode = "
-                      << minConnectionsPerNode << " and maxConnectionsPerNode = " << maxConnectionsPerNode << ".\n"
-                      << "\nThe number of secure blocks required was " << secureBlocks << ".\n"
-                      << "The averageBlockGenIntervalMinutes was " << averageBlockGenIntervalMinutes
-                      << "min and averageBlockGenIntervalSeconds was " << averageBlockGenIntervalSeconds << ".\n"
-                      << "Each attack had a duration of " << targetNumberOfBlocks << " generated blocks.\n"
-                      << "The attacker's hash rate was " << minersHash[attackerId] << ".\n"
-                      << "The number of iterations was " << iterations << ".\n\n";
+            // std::cout << "\nThe simulation ran for " << tFinish - tStart << "s simulating "
+            //           << stop << "mins.\nIt consisted of " << totalNoNodes
+            //           << " nodes (" << noMiners << " miners) with minConnectionsPerNode = "
+            //           << minConnectionsPerNode << " and maxConnectionsPerNode = " << maxConnectionsPerNode << ".\n"
+            //           << "\nThe number of secure blocks required was " << secureBlocks << ".\n"
+            //           << "The averageBlockGenIntervalMinutes was " << averageBlockGenIntervalMinutes
+            //           << "min and averageBlockGenIntervalSeconds was " << averageBlockGenIntervalSeconds << ".\n"
+            //           << "Each attack had a duration of " << targetNumberOfBlocks << " generated blocks.\n"
+            //           << "The attacker's hash rate was " << minersHash[attackerId] << ".\n"
+            //           << "The number of iterations was " << iterations << ".\n\n";
         }
     }
 
@@ -345,18 +345,18 @@ void PrintAttackStats (nodeStatistics *stats, int attackerId, double ud, double 
     int secPerMin = 60;
 
     std::cout << "\nNode " << stats[attackerId].nodeId << " statistics:\n";
-    std::cout << "Connections = " << stats[attackerId].connections << "\n";
-    std::cout << "Mean Block Receive Time = " << stats[attackerId].meanBlockReceiveTime << " or "
-              << static_cast<int>(stats[attackerId].meanBlockReceiveTime) / secPerMin << "min and "
-              << stats[attackerId].meanBlockReceiveTime - static_cast<int>(stats[attackerId].meanBlockReceiveTime) / secPerMin * secPerMin << "s\n";
-    std::cout << "Mean Block Propagation Time = " << stats[attackerId].meanBlockPropagationTime << "s\n";
-    std::cout << "Mean Block Size = " << stats[attackerId].meanBlockSize << " Bytes\n";
-    std::cout << "Total Blocks = " << stats[attackerId].totalBlocks << "\n";
-    std::cout << "Stale Blocks = " << stats[attackerId].staleBlocks << " ("
+    // std::cout << "Connections = " << stats[attackerId].connections << "\n";
+    // std::cout << "Mean Block Receive Time = " << stats[attackerId].meanBlockReceiveTime << " or "
+    //           << static_cast<int>(stats[attackerId].meanBlockReceiveTime) / secPerMin << "min and "
+    //           << stats[attackerId].meanBlockReceiveTime - static_cast<int>(stats[attackerId].meanBlockReceiveTime) / secPerMin * secPerMin << "s\n";
+    // std::cout << "Mean Block Propagation Time = " << stats[attackerId].meanBlockPropagationTime << "s\n";
+    std::cout << "Mean Block Size: " << stats[attackerId].meanBlockSize << " Bytes\n";
+    std::cout << "Total Blocks: " << stats[attackerId].totalBlocks << "\n";
+    std::cout << "Stale Blocks Rate: " << stats[attackerId].staleBlocks << " ("
               << 100. * stats[attackerId].staleBlocks / stats[attackerId].totalBlocks << "%)\n";
-    std::cout << "The size of the longest fork was " << stats[attackerId].longestFork << " blocks\n";
-    std::cout << "There were in total " << stats[attackerId].blocksInForks << " blocks in forks\n";
-    std::cout << "There were " << stats[attackerId].attackSuccess << " successful double-spending attacks.\n";
+    std::cout << "Longest fork's size: " << stats[attackerId].longestFork << "\n";
+    std::cout << "Blocks in forks: " << stats[attackerId].blocksInForks << "\n";
+    std::cout << "Successful double-spending attacks:  " << stats[attackerId].attackSuccess << "\n";
 
 
 
@@ -372,10 +372,10 @@ void PrintAttackStats (nodeStatistics *stats, int attackerId, double ud, double 
 
     double increase = (stats[attackerId].attackSuccess * ud + stats[attackerId].minedBlocksInMainChain) /
                       (stats[attackerId].minerGeneratedBlocks * (1-r));
-    std::cout << "Total Blocks = " << stats[attackerId].totalBlocks << "\n";
-    std::cout << "Mined Blocks in main blockchain = " << stats[attackerId].minedBlocksInMainChain << "\n";
-    std::cout << "Honest Mining Income = " << stats[attackerId].minerGeneratedBlocks * (1-r) << "\n";
-    std::cout << "Attacker Income = " << stats[attackerId].attackSuccess * ud + stats[attackerId].minedBlocksInMainChain << "(";
+    std::cout << "Total Blocks: " << stats[attackerId].totalBlocks << "\n";
+    std::cout << "Mined Blocks in main blockchain: " << stats[attackerId].minedBlocksInMainChain << "\n";
+    std::cout << "Honest Mining Income: " << stats[attackerId].minerGeneratedBlocks * (1-r) << "\n";
+    std::cout << "Attacker Income: " << stats[attackerId].attackSuccess * ud + stats[attackerId].minedBlocksInMainChain << "(";
 
     if (increase >= 1)
         std::cout << "+" << (increase - 1) * 100 << "%)\n";
