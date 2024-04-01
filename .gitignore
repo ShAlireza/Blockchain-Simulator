@@ -33,3 +33,7 @@
 
 # Others
 *.env
+venv/
+env/
+ns-3.41/build/
+ns-3.41/cmake-cache/
